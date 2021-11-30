@@ -9,7 +9,7 @@ export default function Login()
  {
   const { state, dispatch } = useContext(AuthContext);
   const [data, setData] = useState({ errorMessage: "", isLoading: false });
-
+  const [userName, setUserName] = useState('')
   const { client_id, redirect_uri } = state;
 
   useEffect(() => {
@@ -40,6 +40,7 @@ export default function Login()
         .then(response => response.json())
         .then(data => 
           {
+            setUserName(data.login);
           dispatch({
             type: "LOGIN",
             payload: { user: data, isLoggedIn: true }
@@ -53,17 +54,21 @@ export default function Login()
         });
     }
   }, [state, dispatch, data]);
-
+  
   if (state.isLoggedIn) {
+    console.log(userName);
     return <Redirect to="/" />;
+   
+    
   }
 
   return (
     <Wrapper>
       <section className="container">
         <div>
-          <h1>Welcome</h1>
-          <span>Super amazing app</span>
+          <h1>Welcome Board</h1>
+          <span style ={{"color" : "green"}}><b>Materials Database</b></span>
+          <span>Please Login for better Experience</span>
           <span>{data.errorMessage}</span>
           <div className="login-container">
             {data.isLoading ? (
