@@ -1,7 +1,19 @@
 import React, {Component,useLocation} from "react";
-
 import { useState } from "react";
-
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+const bull = (
+  <Box
+    component="span"
+    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+  >
+    •
+  </Box>
+);
 
 
 const Details = (props) =>
@@ -28,21 +40,37 @@ const hiii=()=>
 }
   return (
    
-     
-       <div >
-         <h1>picture dekhlo</h1>
-      <div>
-        {name}
-        {url}
-        {id}
-        {desc}
-      </div>
-     
-        <button onClick={hiii}>Doyouwant</button>
+    
+         <Card sx={{ minWidth: 275 }}>
+      <CardContent>
+        <Typography sx={{ fontSize: 24 }} color="text.primary" gutterBottom>
+         <h1 style ={{textAlign:"center"}}>Welcome to Details Page</h1>
+        </Typography>
+        <Typography variant="h3" component="div">
+        <label>
+        <Box sx={{ color: 'success.main' }}>
+          Title :
+          {name}
+          </Box>
+          </label> 
+        </Typography >
+        <Typography variant="h4" component="div">
+        <label>Description</label>{desc}
+        </Typography>
+        <Typography variant="h5" component="div">
+        <label>Url :</label> {url}
+        </Typography>
+       
+        </CardContent>
+        <Box textAlign='center'>
+  <Button variant='contained'
+   onClick={hiii}>Updation
+  </Button>
+</Box>
        
         {tobedone && (
         <form  onSubmit={update}>
-                    <div className="field">
+                    <Box textAlign='center'>
                         <label>Name</label>
                         <input 
                             type="text" 
@@ -51,7 +79,9 @@ const hiii=()=>
                             value={newname}
                             onChange={(e)=> setNewname(e.target.value)}
                      
-                           ></input>
+                           ></input></Box>
+                           <br/>
+                           <Box textAlign='center'>
                         <label>Desc</label>
                         <input 
                             type="text" 
@@ -61,11 +91,14 @@ const hiii=()=>
                             onChange={(e)=> setNewdesc(e.target.value)}
                      
                          ></input>
-                    </div>
-                    <button className="ui button blue">Edit</button>
+                </Box>
+                <Box textAlign='center'>
+            <button variant='contained'>
+                  Edit</button>
+                  </Box>
                 </form>
         )}
-                </div>
+                </Card>
    
 
   );

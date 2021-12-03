@@ -1,35 +1,22 @@
 import React, { useContext } from "react";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Styled from "styled-components";
 import { AuthContext } from "../App";
 
 
 export default function Home()
 {
-  const { state, dispatch } = useContext(AuthContext);
+  let history = useHistory();
 
-  if (!state.isLoggedIn) {
-    return <Redirect to="/login" />;
+  const redirect = () => {
+    history.push('/login')
   }
 
-  const { avatar_url, name, public_repos, followers, following } = state.user
-
-  const handleLogout = () => {
-    dispatch({
-      type: "LOGOUT"
-    });
-  } 
-
   return (
-    <Wrapper>
-      <div className="container">
-        <button onClick={()=> handleLogout()}>Logout</button>
-        <div>
-         
-        </div>
-      </div>
-    </Wrapper>
-  );
+    <div>
+      <button onClick={redirect}>Redirect</button>
+    </div>
+  )
 }
 
 const Wrapper = Styled.section`

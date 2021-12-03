@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Githubs from "./components/Githubs";
+import Details from "./components/Details";
 import { initialState, reducer } from "./store/reducer";
 
 
@@ -23,8 +24,13 @@ function App() {
     >
     <Router>
       <Switch>
-        <Route path="/login" component={Login}/>
-        <Route path="/" component={Home}/>
+          <Route path="/" exact component={Githubs}/> 
+        <Route path="/login" exact component={Login}/>
+        <Route path='/details' 
+          render = {(props) => (
+            <Details {...props} />
+          )} />
+           
         <Route path="/github" component={Githubs}/>
       </Switch>
     </Router>
