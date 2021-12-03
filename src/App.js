@@ -2,6 +2,7 @@ import React, { createContext, useReducer } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import Githubs from "./components/Githubs";
 import { initialState, reducer } from "./store/reducer";
 
 
@@ -24,6 +25,7 @@ function App() {
       <Switch>
         <Route path="/login" component={Login}/>
         <Route path="/" component={Home}/>
+        <Route path="/github" component={Githubs}/>
       </Switch>
     </Router>
     </AuthContext.Provider>

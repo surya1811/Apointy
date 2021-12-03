@@ -56,8 +56,8 @@ export default function Login()
   }, [state, dispatch, data]);
   
   if (state.isLoggedIn) {
-    console.log(userName);
-    return <Redirect to="/" />;
+   
+    return <Redirect to={`/github?user=${userName}`}/>;
    
     
   }
