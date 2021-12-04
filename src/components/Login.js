@@ -55,19 +55,21 @@ export default function Login()
     }
   }, [state, dispatch, data]);
   
-  if (state.isLoggedIn) {
+  if (state.isLoggedIn)
+   {
    
     return <Redirect to={`/github?user=${userName}`}/>;
    
     
   }
+ 
 
   return (
     <Wrapper>
       <section className="container">
         <div>
-          <h1>Welcome Board</h1>
-          <span style ={{"color" : "green"}}><b>Materials Database</b></span>
+          <h1>Welcome Developer</h1>
+          <span style ={{"color" : "green"}}><b>Go a head for viewing for your Repositories</b></span>
           <span>Please Login for better Experience</span>
           <span>{data.errorMessage}</span>
           <div className="login-container">

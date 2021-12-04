@@ -5,18 +5,14 @@ import { Box,Button } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import Grid from '@material-ui/core/Grid'
 import { AuthContext } from "../App";
 import { Redirect } from "react-router-dom";
-import Home from './Home';
+
 import { useHistory } from "react-router-dom";
 const style = makeStyles({
   titleItemRight: {
@@ -66,6 +62,17 @@ const style = makeStyles({
           url
           id
           description
+          nameWithOwner
+          createdAt
+          hasIssuesEnabled
+        issues(first: 10, states: OPEN) {
+          edges {
+            node {
+              id
+            }
+          }
+        }
+        }
         }
         pageInfo 
         {
@@ -79,7 +86,7 @@ const style = makeStyles({
     {
       method: "POST",
       headers: { 
-        'Authorization': 'Bearer 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', 
+        'Authorization': 'Bearer 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', 
          'Content-Type': 'application/json'
       },
       body:JSON.stringify({query : HOW_ARE })
@@ -90,6 +97,7 @@ const style = makeStyles({
       // setShowrepos(showrepos.slice(start,end));
       console.log(start, end)
       setShowrepos(data.data.user.repositories.nodes.slice(start,end))
+      console.log(showrepos);
       setToget(data.data.user.repositories.nodes.map(itemx =>{
         return(
         <Details
@@ -104,7 +112,7 @@ const style = makeStyles({
 
 // same as previous which uses minus5
 
-function add10()
+function add5()
 {
   var curr=start;
   console.log(repos.length)
@@ -117,7 +125,7 @@ function add10()
   setShowrepos(showrepos.slice(+start,+end));
   console.log(start, end, showrepos)
 }
-  function sub10(){
+  function sub5(){
     if(start>0)
     {
       setStart(start-5);
@@ -135,7 +143,7 @@ function add10()
 
   if (!state.isLoggedIn)
    {
-    return <Redirect to="/login" />;
+    return <Redirect to={"/login"} />;
   }
 
 const handleLogout = () => {
@@ -152,12 +160,10 @@ const classes=style();
     
     <Grid container justifyContent="center" alignItems="center">
      
-    <Box className={classes.titleBar} sx={{ bgcolor: 'warning.main', color: 'warning.contrastText', p: 2 }}>
-    <Button variant="contained" color="error" className={classes.titleItemRight} onClick={()=> handleLogout()}>Log Out</Button>
-
-  </Box>
+     
    
     <Card sx={{ Width: 600 }}>
+    <Button variant="contained" color="secondary" style={{float :"right"}} onClick={()=> handleLogout()}>Log Out</Button>
     <CardHeader
       avatar={
         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -178,7 +184,7 @@ const classes=style();
         </Typography>
       </CardContent>
     
-      <Button color="secondary" variant="contained"> <a href={item.url} target="_blank" style={{color:"white"}}>URL Link</a></Button>
+      <Button color="secondary" style={{backgroundColor: '#12824C', color: '#FFFFFF'}}variant="contained"> <a href={item.url} target="_blank" style={{color:"white"}}>URL Link</a></Button>
       
       
           
@@ -190,8 +196,10 @@ const classes=style();
               name: item.name,
               id: item.id,
               url : item.url,
-              desc: item.description
-            }
+              desc: item.description,
+              crea:item.createdAt,
+              naow:item.nameWithOwner,
+                 }
           }}>
              <Button color="primary" variant="contained"> Details</Button>
      
@@ -206,13 +214,13 @@ const classes=style();
       <CardContent>
       <Typography gutterBottom variant="h5" component="div">
        
-      <Button onClick={sub10} >
-      <Box sx={{ bgcolor: 'success.main', color: 'success.contrastText', p: 2 }}>
+      <Button onClick={sub5} >
+      <Box sx={{ bgcolor: 'warning.main', color: 'success.contrastText', p: 2 }}>
          Previous
         </Box>
 </Button>
-     <Button onClick={add10} >
-     <Box sx={{ bgcolor: 'success.main', color: 'success.contrastText', p: 2 }}>
+     <Button onClick={add5} >
+     <Box sx={{ bgcolor: 'warning.main', color: 'success.contrastText', p: 2 }}>
           Next
         </Box>
 </Button>

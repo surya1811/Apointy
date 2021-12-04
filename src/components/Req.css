@@ -1,0 +1,17 @@
+.foot{
+    background-color:#bbb;
+    color:white;
+    max-height:auto;
+    max-width:100%;
+    font-weight:italics;
+    background-image:linear-gradient(to top left,rgb(231, 69, 196),green);
+    font-size:30px;
+    font-family:cursive;
+    display:inline-block;
+    padding:5px;
+    text-align:center;
+    margin:10px 10px;
+    border:2px solid seagreen;
+    cursor:pointer;
+    box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    }

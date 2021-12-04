@@ -2,10 +2,10 @@ import React, {Component,useLocation} from "react";
 import { useState } from "react";
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import  "./Req.css";
 const bull = (
   <Box
     component="span"
@@ -25,6 +25,8 @@ const [tobedone,setTobedone]=useState(false);
   const [id, setId] = useState(props.location.state.id);
   const [url, setUrl] = useState(props.location.state.url);
   const [desc, setDesc] = useState(props.location.state.desc);
+  const [naow,setNaow] = useState(props.location.state.naow);
+  const [crea,setCrea] = useState(props.location.state.crea);
   
  function update(e)
  {
@@ -43,35 +45,69 @@ const hiii=()=>
     
          <Card sx={{ minWidth: 275 }}>
       <CardContent>
-        <Typography sx={{ fontSize: 24 }} color="text.primary" gutterBottom>
+        <Typography sx={{ fontSize: 24 }} color="success.main" gutterBottom>
          <h1 style ={{textAlign:"center"}}>Welcome to Details Page</h1>
         </Typography>
+        <br />
         <Typography variant="h3" component="div">
         <label>
-        <Box sx={{ color: 'success.main' }}>
-          Title :
-          {name}
+        <Box sx={{ color: 'text.primary' }} style ={{textAlign:"center"}}>
+          <p style ={{fontFamily : "timesNewRoman"}}> Title :
+          {name}</p>
+         
+          </Box>
+          </label> 
+        </Typography >
+
+        <Typography variant="h4" component="div">
+        <label>
+        <Box sx={{ color: 'error.main' }} style ={{textAlign:"center"}}>
+        <p style ={{fontFamily : "Bahnschrift Condensed"}}> Name With Owner : 
+          {naow}</p>
           </Box>
           </label> 
         </Typography >
         <Typography variant="h4" component="div">
-        <label>Description</label>{desc}
-        </Typography>
-        <Typography variant="h5" component="div">
-        <label>Url :</label> {url}
-        </Typography>
+        <label>
+        <Box sx={{ color: 'text.secondary' }} style ={{textAlign:"center"}}>
+        <p style ={{fontFamily : "Bahnschrift Condensed"}}> Description : {desc}</p>
+         
+          </Box>
+          </label> 
+        </Typography >
+        <Typography variant="h4" component="div">
+        <label>
+        <Box sx={{ color: 'info.main' }} style ={{textAlign:"center"}}>
+        <p style ={ {fontFamily : "Bahnschrift Condensed"}}> Created Date : 
+          {crea}</p>
+         
+          </Box>
+          </label> 
+        </Typography >
+        <Typography variant="h4" component="div">
+        <label>
+        <Box sx={{ color: 'secondary.main' }} style ={{textAlign:"center"}}>
+        <i style ={{fontFamily : "timesNewRoman"}}>Url : {url}</i>
+         
+          </Box>
+          </label> 
+        </Typography >
+       
+       
        
         </CardContent>
         <Box textAlign='center'>
   <Button variant='contained'
-   onClick={hiii}>Updation
+   onClick={hiii}>Click for Updation
   </Button>
 </Box>
        
         {tobedone && (
         <form  onSubmit={update}>
                     <Box textAlign='center'>
-                        <label>Name</label>
+                      <br />
+                    <b style ={{fontSize: "25px"}}> <label>Name : </label></b>
+                       
                         <input 
                             type="text" 
                             name="name" 
@@ -82,7 +118,7 @@ const hiii=()=>
                            ></input></Box>
                            <br/>
                            <Box textAlign='center'>
-                        <label>Desc</label>
+                           <b style ={{fontSize: "25px"}}> <label>Description : </label></b>
                         <input 
                             type="text" 
                             name="desc" 
@@ -90,10 +126,13 @@ const hiii=()=>
                             value={newdesc}
                             onChange={(e)=> setNewdesc(e.target.value)}
                      
-                         ></input>
+                         >
+
+                         </input>
+
                 </Box>
                 <Box textAlign='center'>
-            <button variant='contained'>
+            <button variant='contained' className = "foot">
                   Edit</button>
                   </Box>
                 </form>
