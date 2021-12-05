@@ -6,14 +6,6 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import  "./Req.css";
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
 
 
 const Details = (props) =>
@@ -27,7 +19,9 @@ const [tobedone,setTobedone]=useState(false);
   const [desc, setDesc] = useState(props.location.state.desc);
   const [naow,setNaow] = useState(props.location.state.naow);
   const [crea,setCrea] = useState(props.location.state.crea);
-  
+  const [iss, setIss] = useState(props.location.state.iss);
+  const [coun,setCoun] = useState(props.location.state.cou);
+  // const [reason,setReason] = useState(props.location.state.reason);
  function update(e)
  {
 e.preventDefault()
@@ -77,6 +71,14 @@ const hiii=()=>
         </Typography >
         <Typography variant="h4" component="div">
         <label>
+        <Box sx={{ color: 'success.main' }} style ={{textAlign:"center"}}>
+        <p style ={{fontFamily : "Bahnschrift Condensed"}}>Total Repositories : {coun}</p>
+         
+          </Box>
+          </label> 
+        </Typography >
+        <Typography variant="h4" component="div">
+        <label>
         <Box sx={{ color: 'info.main' }} style ={{textAlign:"center"}}>
         <p style ={ {fontFamily : "Bahnschrift Condensed"}}> Created Date : 
           {crea}</p>
@@ -84,6 +86,17 @@ const hiii=()=>
           </Box>
           </label> 
         </Typography >
+        <Typography variant="h4" component="div">
+        <label>
+        <Box sx={{ color: 'warning.main' }} style ={{textAlign:"center"}}>
+        <p style ={{fontFamily : "Bahnschrift Condensed"}}>Total Issues Count : {iss}</p>
+         
+          </Box>
+          </label> 
+        </Typography >
+       
+     
+       
         <Typography variant="h4" component="div">
         <label>
         <Box sx={{ color: 'secondary.main' }} style ={{textAlign:"center"}}>

@@ -5,8 +5,11 @@ import { Box,Button } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
+
 import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import Grid from '@material-ui/core/Grid'
@@ -29,11 +32,14 @@ const style = makeStyles({
     justifyContent: 'center'
   }
 });
+
+
+
  export default function Githubs() 
  {
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(5);
-  
+  const [coun,setCoun] = useState(0);
   const [repos,setRepos]=useState([]);
   const [toget,setToget]=useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -43,6 +49,9 @@ const style = makeStyles({
   
  useEffect(()=>
   { 
+    if (!state.isLoggedIn) {
+      return <Redirect to={`/login`}/>;
+    }
     const urlParams = new URLSearchParams(window.location.search);
     const myParam = urlParams.get('user');
     // console.log(myParam)
@@ -54,37 +63,44 @@ const style = makeStyles({
       repositories(first: 100)
        {
         nodes 
-          {
+        {
           name
           url
           id
           description
           nameWithOwner
           createdAt
+          issues(first: 100, states: OPEN) 
+          {
+            totalCount
+           
           }
-      }
+        }
         pageInfo 
         {
           hasNextPage
         }
-   }  
+        totalCount
+      } 
+    }
+  
 }`
     fetch('https://api.github.com/graphql',
     {
       method: "POST",
       headers: { 
-        'Authorization': 'Bearer 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', 
+        'Authorization': 'Bearer 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', 
          'Content-Type': 'application/json'
       },
       body:JSON.stringify({query : HOW_ARE })
     }).then((response)=>response.json())
     .then((data) => {
       setRepos(data.data.user.repositories.nodes);
+      setCoun(data.data.user.repositories.totalCount);
       //if else condition
       // setShowrepos(showrepos.slice(start,end));
       console.log(start, end)
       setShowrepos(data.data.user.repositories.nodes.slice(start,end))
-      console.log(showrepos);
       setToget(data.data.user.repositories.nodes.map(itemx =>{
         return(
         <Details
@@ -130,15 +146,17 @@ function add5()
 
   if (!state.isLoggedIn)
    {
-    return <Redirect to={"/login"} />;
+    return <Redirect to="/login" />;
   }
 
 const handleLogout = () => {
   state.isLoggedIn=false;
+  // return <Redirect to="/login" />;
   dispatch({
-    type: "LOGOUT"
+    type: "LOGOUT",
+    payload: { isLoggedIn: false }
   });
-  
+  window.location.reload()
  console.log('clicked');
 } 
 const classes=style();
@@ -147,10 +165,11 @@ const classes=style();
     
     <Grid container justifyContent="center" alignItems="center">
      
-     
+   
    
     <Card sx={{ Width: 600 }}>
     <Button variant="contained" color="secondary" style={{float :"right"}} onClick={()=> handleLogout()}>Log Out</Button>
+   
     <CardHeader
       avatar={
         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -175,6 +194,7 @@ const classes=style();
       
       
           
+        
             
    
           <Link to={{
@@ -184,9 +204,12 @@ const classes=style();
               id: item.id,
               url : item.url,
               desc: item.description,
+             naow:item. nameWithOwner,
               crea:item.createdAt,
-              naow:item.nameWithOwner,
-                 }
+              iss: item.issues.totalCount,
+              cou: coun,
+              
+                  }
           }}>
              <Button color="primary" variant="contained"> Details</Button>
      
