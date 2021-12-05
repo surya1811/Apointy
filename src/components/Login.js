@@ -1,191 +1,231 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Redirect } from "react-router-dom";
-import Styled from "styled-components";
-import GithubIcon from "mdi-react/GithubIcon";
+import React, { useEffect, useState, useContext } from "react";
+import { BrowserRouter as Router, Switch, Route,Link } from 'react-router-dom';
+import Details from "./Details";
+import { Box,Button } from '@material-ui/core';
+import { makeStyles } from "@material-ui/core/styles";
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import { red } from '@mui/material/colors';
+import Grid from '@material-ui/core/Grid'
 import { AuthContext } from "../App";
+import { Redirect } from "react-router-dom";
+
+import { useHistory } from "react-router-dom";
+const style = makeStyles({
+  titleItemRight: {
+    color: 'black',
+   
+    top: '0%',
+    height: 30,
+    float: 'right',
+    position: 'relative',
+     all: 'unset',
+    width: '70px',
+    fontSize : '40',
+    alignSelf: 'flexEnd',
+    justifyContent: 'center'
+  }
+});
 
 
-export default function Login()
+
+ export default function Githubs() 
  {
-  const { state, dispatch } = useContext(AuthContext);
-  const [data, setData] = useState({ errorMessage: "", isLoading: false });
-  const [userName, setUserName] = useState('')
-  const { client_id, redirect_uri } = state;
-
-  useEffect(() => {
-      const url = window.location.href;
-    const hasCode = url.includes("?code=");
-
-    // If Github API returns the code parameter
-    if (hasCode)
-     {
-      const newUrl = url.split("?code=");
-      window.history.pushState({}, null, newUrl[0]);
-      setData({ ...data, isLoading: true });
-
-      const requestData =
-       {
-        code: newUrl[1]
-      };
-
-      const proxy_url = state.proxy_url;
-
-      // Use code parameter and other parameters to make POST request to proxy_server
-      console.log(proxy_url);
-      fetch(proxy_url, 
-        {
-        method: "POST",
-        body: JSON.stringify(requestData)
-      })
-        .then(response => response.json())
-        .then(data => 
-          {
-            setUserName(data.login);
-          dispatch({
-            type: "LOGIN",
-            payload: { user: data, isLoggedIn: true }
-          });
-        })
-        .catch(error => {
-          setData({
-            isLoading: false,
-            errorMessage: "Sorry! Login failed"
-          });
-        });
-    }
-  }, [state, dispatch, data]);
+  const [start, setStart] = useState(0);
+  const [end, setEnd] = useState(5);
   
-  if (state.isLoggedIn)
-   {
-   
-    return <Redirect to={`/github?user=${userName}`}/>;
-   
-    
-  }
- 
+  const [repos,setRepos]=useState([]);
+  const [toget,setToget]=useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const { state, dispatch } = useContext(AuthContext);
 
-  return (
-    <Wrapper>
-      <section className="container">
-        <div>
-          <h1>Welcome Developer</h1>
-          <span style ={{"color" : "green"}}><b>Go a head for viewing for your Repositories</b></span>
-          <span>Please Login for better Experience</span>
-          <span>{data.errorMessage}</span>
-          <div className="login-container">
-            {data.isLoading ? (
-              <div className="loader-container">
-                <div className="loader"></div>
-              </div>
-            ) : (
-              <>
-                {
-                  // Link to request GitHub access
-                }
-                <a
-                  className="login-link"
-                  href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
-                 
-                  onClick={() => {
-                    console.log(data);
-                    setData({ ...data, errorMessage: "" });
-                  }}
-                >
-                  <GithubIcon />
-                  <span>Login with GitHub</span>
-                </a>
-              </>
-            )}
-          </div>
-        </div>
-      </section>
-    </Wrapper>
-  );
-}
-
-const Wrapper = Styled.section`
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-family: Arial;
-    
-
-    > div:nth-child(1) {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
-      transition: 0.3s;
-      width: 25%;
-      height: 45%;
-
-      > h1 {
-        font-size: 2rem;
-        margin-bottom: 20px;
-      }
-
-      > span:nth-child(2) {
-        font-size: 1.1rem;
-        color: #808080;
-        margin-bottom: 70px;
-      }
-
-      > span:nth-child(3) {
-        margin: 10px 0 20px;
-        color: red;
-      }
-
-      .login-container {
-        background-color: #000;
-        width: 70%;
-        border-radius: 3px;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        > .login-link {
-          text-decoration: none;
-          color: #fff;
-          text-transform: uppercase;
-          cursor: default;
-          display: flex;
-          align-items: center;          
-          height: 40px;
-
-          > span:nth-child(2) {
-            margin-left: 5px;
-          }
-        }
-
-        .loader-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;          
-          height: 40px;
-        }
-
-        .loader {
-          border: 4px solid #f3f3f3;
-          border-top: 4px solid #3498db;
-          border-radius: 50%;
-          width: 12px;
-          height: 12px;
-          animation: spin 2s linear infinite;
-        }
-
-        @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-      }
+  const [showrepos, setShowrepos] = useState([]);
+  
+ useEffect(()=>
+  { 
+    if (!state.isLoggedIn) {
+      return <Redirect to={`/login`}/>;
     }
+    const urlParams = new URLSearchParams(window.location.search);
+    const myParam = urlParams.get('user');
+    // console.log(myParam)
+   var  HOW_ARE=
+  `
+  {
+    user(login : "${myParam}") 
+    {
+      repositories(first: 100)
+       {
+        nodes 
+        {
+          name
+          url
+          id
+          description
+        }
+        pageInfo 
+        {
+          hasNextPage
+        }
+      } 
+    }
+  
+}`
+    fetch('https://api.github.com/graphql',
+    {
+      method: "POST",
+      headers: { 
+        'Authorization': 'Bearer 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', 
+         'Content-Type': 'application/json'
+      },
+      body:JSON.stringify({query : HOW_ARE })
+    }).then((response)=>response.json())
+    .then((data) => {
+      setRepos(data.data.user.repositories.nodes);
+      //if else condition
+      // setShowrepos(showrepos.slice(start,end));
+      console.log(start, end)
+      setShowrepos(data.data.user.repositories.nodes.slice(start,end))
+      setToget(data.data.user.repositories.nodes.map(itemx =>{
+        return(
+        <Details
+          contact={itemx}
+          key={itemx.id}
+         />
+        );
+        }));
+      setLoaded(true);
+    })
+  },[]);
+
+// same as previous which uses minus5
+
+function add10()
+{
+  var curr=start;
+  console.log(repos.length)
+  if(curr<repos.length)
+  {
+    setStart(+curr+5);
+    setEnd(+end+5)
   }
-`;
+  
+  setShowrepos(showrepos.slice(+start,+end));
+  console.log(start, end, showrepos)
+}
+  function sub10(){
+    if(start>0)
+    {
+      setStart(start-5);
+      setEnd(end-5);
+    }
+  
+
+    setShowrepos(showrepos.slice(start,end));
+    console.log(start, end, showrepos)
+  }  
+
+  useEffect(()=>{
+    setShowrepos(repos.slice(start,end));
+  }, [start])
+
+  if (!state.isLoggedIn)
+   {
+    return <Redirect to="/login" />;
+  }
+
+const handleLogout = () => {
+  state.isLoggedIn=false;
+  // return <Redirect to="/login" />;
+  dispatch({
+    type: "LOGOUT",
+    payload: { isLoggedIn: false }
+  });
+  window.location.reload()
+ console.log('clicked');
+} 
+const classes=style();
+  return (
+
+    
+    <Grid container justifyContent="center" alignItems="center">
+     
+    <Box className={classes.titleBar} sx={{ bgcolor: 'warning.main', color: 'warning.contrastText', p: 2 }}>
+    <Button variant="contained" color="error" className={classes.titleItemRight} onClick={()=> handleLogout()}>Log Out</Button>
+
+  </Box>
+   
+    <Card sx={{ Width: 600 }}>
+    <CardHeader
+      avatar={
+        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          S
+        </Avatar>
+      }
+      title="Welcome to Github"
+        subheader="My Repositories"
+      />
+     <ul>
+     {loaded && repos && showrepos.map(item =>(
+      <div>
+      
+      <li key={item.id}> 
+      <CardContent>
+      <Typography gutterBottom variant="h5" component="div">
+         {item.name}
+        </Typography>
+      </CardContent>
+    
+      <Button color="secondary" variant="contained"> <a href={item.url} target="_blank" style={{color:"white"}}>URL Link</a></Button>
+      
+      
+          
+            
+   
+          <Link to={{
+            pathname:'/details',
+            state:{
+              name: item.name,
+              id: item.id,
+              url : item.url,
+              desc: item.description
+            }
+          }}>
+             <Button color="primary" variant="contained"> Details</Button>
+     
+          </Link>
+      
+      
+       </li>
+     </div>
+     ))}
+   
+      </ul>
+      <CardContent>
+      <Typography gutterBottom variant="h5" component="div">
+       
+      <Button onClick={sub10} >
+      <Box sx={{ bgcolor: 'success.main', color: 'success.contrastText', p: 2 }}>
+         Previous
+        </Box>
+</Button>
+     <Button onClick={add10} >
+     <Box sx={{ bgcolor: 'success.main', color: 'success.contrastText', p: 2 }}>
+          Next
+        </Box>
+</Button>
+
+        </Typography>
+        </CardContent>
+      
+        </Card>
+        </Grid>
+       );
+ }

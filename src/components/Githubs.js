@@ -86,7 +86,7 @@ const style = makeStyles({
     {
       method: "POST",
       headers: { 
-        'Authorization': 'Bearer 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', 
+        'Authorization': 'Bearer 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', 
          'Content-Type': 'application/json'
       },
       body:JSON.stringify({query : HOW_ARE })
