@@ -29,9 +29,6 @@ const style = makeStyles({
     justifyContent: 'center'
   }
 });
-
-
-
  export default function Githubs() 
  {
   const [start, setStart] = useState(0);
@@ -57,30 +54,20 @@ const style = makeStyles({
       repositories(first: 100)
        {
         nodes 
-        {
+          {
           name
           url
           id
           description
           nameWithOwner
           createdAt
-          hasIssuesEnabled
-        issues(first: 10, states: OPEN) {
-          edges {
-            node {
-              id
-            }
           }
-        }
-        }
-        }
+      }
         pageInfo 
         {
           hasNextPage
         }
-      } 
-    }
-  
+   }  
 }`
     fetch('https://api.github.com/graphql',
     {

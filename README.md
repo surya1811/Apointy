@@ -16,3 +16,5 @@ An app that implements "Login with GitHub" functionality in React
   SERVER_PORT=5000
   ```
 - Run *yarn start* to start the app
+
+Make sure to give your github personal token in the component of githubs Authorization (line num : 89, Githubs.js)
