@@ -21,7 +21,7 @@ const [tobedone,setTobedone]=useState(false);
   const [crea,setCrea] = useState(props.location.state.crea);
   const [iss, setIss] = useState(props.location.state.iss);
   const [coun,setCoun] = useState(props.location.state.cou);
-  // const [reason,setReason] = useState(props.location.state.reason);
+  // const [reason,setReason] = useState(props.location.state.over);
  function update(e)
  {
 e.preventDefault()

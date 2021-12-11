@@ -75,6 +75,7 @@ const style = makeStyles({
             totalCount
            
           }
+         
         }
         pageInfo 
         {
@@ -89,7 +90,7 @@ const style = makeStyles({
     {
       method: "POST",
       headers: { 
-        'Authorization': 'Bearer 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', 
+        'Authorization': 'Bearer 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', 
          'Content-Type': 'application/json'
       },
       body:JSON.stringify({query : HOW_ARE })
@@ -207,7 +208,8 @@ const classes=style();
              naow:item. nameWithOwner,
               crea:item.createdAt,
               iss: item.issues.totalCount,
-              cou: coun,
+              cou: coun
+              // over: item.issue. issueOrPullRequest
               
                   }
           }}>
