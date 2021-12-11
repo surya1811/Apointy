@@ -17,4 +17,4 @@ An app that implements "Login with GitHub" functionality in React
   ```
 - Run *yarn start* to start the app
 
-Make sure to give your github personal token in the component of githubs Authorization (line num : 89, Githubs.js)
+Make sure to give your github personal token in the component of githubs Authorization (line num : 92, Githubs.js)
